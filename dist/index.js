@@ -126,7 +126,7 @@ async function run() {
     // Format 1: https://app.asana.com/1/1200203178379976/project/<project>/task/<taskId>
     const ASANA_TASK_LINK_REGEX_FORMAT1 = /https:\/\/app\.asana\.com\/\d+\/\d+\/project\/(?<project>\d+)\/task\/(?<taskId>\d+).*/gi;
     // Format 2: https://app.asana.com/0/<project>/<task>/f
-    const ASANA_TASK_LINK_REGEX_FORMAT2 = /https:\/\/app\.asana\.com\/0\/(?<project>\d+)\/(?<taskId>\d+)\/f.*/gi;
+    const ASANA_TASK_LINK_REGEX_FORMAT2 = /https:\/\/app\.asana\.com\/0\/(?<project>\d+)\/(?<taskId>\d+)\/?f?.*/gi;
     const WHITELIST_GITHUB_USERS = (core.getInput("whitelist-github-users") || "").split(",");
     const CODE_REVIEW = "Merge Request Created".toUpperCase();
     const READY_FOR_QA = "Merged on Main".toUpperCase();
