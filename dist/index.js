@@ -180,10 +180,10 @@ async function run() {
         .map((o) => {
         let name = o.name.toUpperCase();
         if (name.includes(READY_FOR_QA.toUpperCase())) {
-            name = READY_FOR_QA;
+            name = READY_FOR_QA.toUpperCase();
         }
         if (name.includes(CODE_REVIEW.toUpperCase())) {
-            name = CODE_REVIEW;
+            name = CODE_REVIEW.toUpperCase();
         }
         return {
             name,
