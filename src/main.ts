@@ -88,10 +88,6 @@ export async function run() {
     })
     .filter((o) => optionsList.includes(o.name.toUpperCase()));
 
-  console.log("filterDevStatusId[0].enum_options", filterDevStatusId[0].enum_options);
-  console.log("optionsList", optionsList);
-  console.log("filteredOptions", filteredOptions);
-
   if (optionsList.length !== filteredOptions.length) {
     core.setFailed(`Not all options are available in the field. One or more options is missing: ${optionsList}`);
     return;
@@ -103,6 +99,7 @@ export async function run() {
   }, {});
 
   const eventName = github.context.eventName;
+  const merged = github.context.payload.pull_request?.merged;
   const action = prInfo.action;
 
   const prAuthor = prInfo.pull_request.user.login;
@@ -114,6 +111,8 @@ export async function run() {
       if (eventName === "pull_request" && (action === "opened" || action === "reopened")) {
         return option[CODE_REVIEW];
       } else if (eventName === "pull_request_review" && prInfo.review.state === "approved") {
+        return option[READY_FOR_QA];
+      } else if (eventName === "pull_request" && action === "closed" && merged) {
         return option[READY_FOR_QA];
       }
     }
