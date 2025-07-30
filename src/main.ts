@@ -12,8 +12,8 @@ export async function run() {
 
   const WHITELIST_GITHUB_USERS = (core.getInput("whitelist-github-users") || "").split(",");
 
-  const CODE_REVIEW = "Merge Request Created";
-  const READY_FOR_QA = "Merged on Main";
+  const CODE_REVIEW = "Merge Request Created".toUpperCase();
+  const READY_FOR_QA = "Merged on Main".toUpperCase();
 
   const prInfo = github.context.payload;
   if (!prInfo.pull_request) {
@@ -87,6 +87,10 @@ export async function run() {
       };
     })
     .filter((o) => optionsList.includes(o.name.toUpperCase()));
+
+  console.log("filterDevStatusId[0].enum_options", filterDevStatusId[0].enum_options);
+  console.log("optionsList", optionsList);
+  console.log("filteredOptions", filteredOptions);
 
   if (optionsList.length !== filteredOptions.length) {
     core.setFailed(`Not all options are available in the field. One or more options is missing: ${optionsList}`);
