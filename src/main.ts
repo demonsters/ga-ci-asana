@@ -75,10 +75,10 @@ export async function run() {
   const filteredOptions = filterDevStatusId[0].enum_options
     .map((o) => {
       let name = o.name.toUpperCase();
-      if (name.includes(READY_FOR_QA)) {
+      if (name.includes(READY_FOR_QA.toUpperCase())) {
         name = READY_FOR_QA;
       }
-      if (name.includes(CODE_REVIEW)) {
+      if (name.includes(CODE_REVIEW.toUpperCase())) {
         name = CODE_REVIEW;
       }
       return {
