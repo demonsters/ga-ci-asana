@@ -1,6 +1,6 @@
-name: "Asana + Github - custom action (by Zignaly)"
+name: "Asana + Github - custom action (by De Monsterts)"
 description: "change status of target task when PR is reviewed or merged"
-author: "Pedro Moreno"
+author: "Steijn van der Laan"
 
 inputs:
   asana-token:
