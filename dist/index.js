@@ -122,6 +122,7 @@ const core = __importStar(__nccwpck_require__(7484));
 const github = __importStar(__nccwpck_require__(3228));
 const asana_1 = __importDefault(__nccwpck_require__(4050));
 async function run() {
+    var _a;
     // Format 1: https://app.asana.com/1/1200203178379976/project/<project>/task/<taskId>
     const ASANA_TASK_LINK_REGEX_FORMAT1 = /https:\/\/app\.asana\.com\/\d+\/\d+\/project\/(?<project>\d+)\/task\/(?<taskId>\d+).*/gi;
     // Format 2: https://app.asana.com/0/<project>/<task>/f
@@ -191,9 +192,6 @@ async function run() {
         };
     })
         .filter((o) => optionsList.includes(o.name.toUpperCase()));
-    console.log("filterDevStatusId[0].enum_options", filterDevStatusId[0].enum_options);
-    console.log("optionsList", optionsList);
-    console.log("filteredOptions", filteredOptions);
     if (optionsList.length !== filteredOptions.length) {
         core.setFailed(`Not all options are available in the field. One or more options is missing: ${optionsList}`);
         return;
@@ -203,6 +201,7 @@ async function run() {
         return acc;
     }, {});
     const eventName = github.context.eventName;
+    const merged = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.merged;
     const action = prInfo.action;
     const prAuthor = prInfo.pull_request.user.login;
     const status = (() => {
@@ -214,6 +213,9 @@ async function run() {
                 return option[CODE_REVIEW];
             }
             else if (eventName === "pull_request_review" && prInfo.review.state === "approved") {
+                return option[READY_FOR_QA];
+            }
+            else if (eventName === "pull_request" && action === "closed" && merged) {
                 return option[READY_FOR_QA];
             }
         }
