@@ -8,7 +8,7 @@ export async function run() {
     /https:\/\/app\.asana\.com\/\d+\/\d+\/project\/(?<project>\d+)\/task\/(?<taskId>\d+).*/gi;
 
   // Format 2: https://app.asana.com/0/<project>/<task>/f
-  const ASANA_TASK_LINK_REGEX_FORMAT2 = /https:\/\/app\.asana\.com\/0\/(?<project>\d+)\/(?<taskId>\d+)\/f.*/gi;
+  const ASANA_TASK_LINK_REGEX_FORMAT2 = /https:\/\/app\.asana\.com\/0\/(?<project>\d+)\/(?<taskId>\d+)\/?f?.*/gi;
 
   const WHITELIST_GITHUB_USERS = (core.getInput("whitelist-github-users") || "").split(",");
 
