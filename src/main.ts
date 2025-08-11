@@ -23,7 +23,7 @@ export async function run() {
 
   const description = prInfo.pull_request.body;
   if (!description) {
-    core.setFailed("No description found for this pull request.");
+    core.notice("No description found for this pull request.");
     return;
   }
 
