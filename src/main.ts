@@ -52,7 +52,7 @@ export async function run() {
   }
 
   if (taskIds.length === 0) {
-    core.setFailed("No task id found in the description. Or link is missing.");
+    core.notice("No task id found in the description. Or link is missing.");
     return;
   }
 
