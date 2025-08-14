@@ -12,6 +12,10 @@ export async function run() {
 
   const ASANA_TASK_LINK_REGEX_FORMAT3 = /https:\/\/app\.asana\.com\/0\/home\/(?<project>\d+)\/(?<taskId>\d+)\/?f?.*/gi;
 
+  // Regex for parse url like: https://app.asana.com/0/search?q=groepen&searched_type=task&child=1210562993211967
+  // Regex for URLs like: https://app.asana.com/0/search?q=groepen&searched_type=task&child=1210562993211967
+  const ASANA_TASK_LINK_REGEX_FORMAT4 = /https:\/\/app\.asana\.com\/0\/search\?[^ ]*child=(?<taskId>\d+)/gi;
+
   const WHITELIST_GITHUB_USERS = (core.getInput("whitelist-github-users") || "").split(",");
 
   const CODE_REVIEW = "Merge Request Created".toUpperCase();
@@ -61,6 +65,16 @@ export async function run() {
     }
     if (match3.groups && match3.groups.taskId) {
       taskIds.push(match3.groups.taskId);
+    }
+  }
+
+  let match4;
+  while ((match4 = ASANA_TASK_LINK_REGEX_FORMAT4.exec(description)) !== null) {
+    if (match4.index === ASANA_TASK_LINK_REGEX_FORMAT4.lastIndex) {
+      ASANA_TASK_LINK_REGEX_FORMAT4.lastIndex++;
+    }
+    if (match4.groups && match4.groups.taskId) {
+      taskIds.push(match4.groups.taskId);
     }
   }
 
