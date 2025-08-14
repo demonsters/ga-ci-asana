@@ -10,6 +10,8 @@ export async function run() {
   // Format 2: https://app.asana.com/0/<project>/<task>/f
   const ASANA_TASK_LINK_REGEX_FORMAT2 = /https:\/\/app\.asana\.com\/0\/(?<project>\d+)\/(?<taskId>\d+)\/?f?.*/gi;
 
+  const ASANA_TASK_LINK_REGEX_FORMAT3 = /https:\/\/app\.asana\.com\/0\/home\/(?<taskId>\d+)\/?f?.*/gi;
+
   const WHITELIST_GITHUB_USERS = (core.getInput("whitelist-github-users") || "").split(",");
 
   const CODE_REVIEW = "Merge Request Created".toUpperCase();
@@ -48,6 +50,17 @@ export async function run() {
     }
     if (match2.groups && match2.groups.taskId) {
       taskIds.push(match2.groups.taskId);
+    }
+  }
+
+  // Extract task IDs from Format 3 URLs
+  let match3;
+  while ((match3 = ASANA_TASK_LINK_REGEX_FORMAT3.exec(description)) !== null) {
+    if (match3.index === ASANA_TASK_LINK_REGEX_FORMAT3.lastIndex) {
+      ASANA_TASK_LINK_REGEX_FORMAT3.lastIndex++;
+    }
+    if (match3.groups && match3.groups.taskId) {
+      taskIds.push(match3.groups.taskId);
     }
   }
 
